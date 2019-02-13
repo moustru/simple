@@ -1,0 +1,29 @@
+// vars
+$blue: #2b71c7;
+$green: #67c72b;
+$red: #ad1616;
+$transition: all .3s ease;
+
+// mixins
+
+@mixin Flex($justify-content: flex-start, $align-items: flex-start, $flex-direction: row, $flex-wrap: nowrap) {
+    display: flex;
+    justify-content: $justify-content;
+    align-items: $align-items;
+    flex-direction: $flex-direction;
+    flex-wrap: $flex-wrap;
+}
+
+// fonts
+
+@font-face {
+    font-family: 'Montserrat Regular';
+    src: url('~static/fonts/Montserrat-Regular.woff') format('woff');
+    src: url('~static/fonts/Montserrat-Regular.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Montserrat Bold';
+    src: url('~static/fonts/Montserrat-Bold.woff') format('woff');
+    src: url('~static/fonts/Montserrat-Bold.woff2') format('woff2');
+}
