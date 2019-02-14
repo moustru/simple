@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="header-user">
-            <img src="~/static/img/ava.png" class="ava-medium"/>
+            <a href="/account"><img src="~/static/img/ava.png" class="ava-medium"/></a>
             <div class="header-info">
                 <span class="header-info-name text-bold">Евгений Могирко</span>
                 <span class="header-info-login">moustru</span>

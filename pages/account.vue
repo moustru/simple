@@ -154,7 +154,7 @@
                 }
 
                 &-title {
-                    padding-bottom: 25px;
+                    padding-bottom: 5px;
                     font-size: 24px;
                 }
 
