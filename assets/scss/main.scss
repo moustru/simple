@@ -137,6 +137,12 @@ textarea {
 }
 
 .ava {
+    &-small {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+    }
+
     &-medium {
         width: 100px;
     }
@@ -185,7 +191,14 @@ textarea {
     }
 
     &-buttons {
+        &-center {
+            width: 50%;
+            text-align: center;
+        }
+
         .btn {
+            display: inline-flex;
+            justify-content: center;
             width: 24%;
             margin-right: 10px;
         }

@@ -1,7 +1,7 @@
 // Drag-n-Drop
 
 const $tasks = document.querySelectorAll('.task');
-const $rows = document.querySelectorAll('.board-row__field');
+const $cols = document.querySelectorAll('.projects-col-field');
 var dropped = false;
 
 if($tasks) {
@@ -12,8 +12,8 @@ if($tasks) {
     })
 }
 
-if($rows) {
-    [].forEach.call($rows, (el) => {
+if($cols) {
+    [].forEach.call($cols, (el) => {
         el.addEventListener('dragenter', dragEnter, false);
         el.addEventListener('dragleave', dragLeave, false);
         el.addEventListener('dragover', dragOver, false);

@@ -6,7 +6,7 @@
             <div class="account-container">
                 <h3 class="account-container-title">Ваши проекты</h3>
                 <div class="account-projects">
-                    <div class="add-project">
+                    <div class="add-project" @click="showPopup('.popup-new-project')">
                         <img src="~/static/img/icons/plus.svg"/>
                     </div>
                     <div class="project">
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div class="popup">
+        <div class="popup popup-new-project">
             <div class="popup-content">
                 <h1 class="popup-title text-bold">Новый проект</h1>
                 <form method="POST" action="#" class="form-new-project">
@@ -47,9 +47,18 @@
                     </div>
                     <div class="popup-buttons">
                         <button type="submit" class="btn btn-yes">Создать</button>
-                        <button class="btn btn-no">Отмена</button>
+                        <a class="btn btn-no" @click="hidePopup('.popup-new-project')">Отмена</a>
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="popup">
+            <div class="popup-content">
+                <h1 class="popup-title text-bold">Вы действительно хотите выйти?</h1>
+                <div class="popup-buttons popup-buttons-center">
+                    <button class="btn btn-yes">Да</button>
+                    <button class="btn btn-no">Нет</button>
+                </div>
             </div>
         </div>
     </div>
@@ -57,11 +66,24 @@
 
 <script>
     import Header from '@/components/Header.vue';
+    import Anim from '@/assets/libs/Anim';
+
+//    if(process.client) require('@/assets/libs/Anim');
 
     export default {
         name: 'account',
         components: {
             'header-component': Header
+        },
+
+        methods: {
+            showPopup: function(s) {
+                Anim.fadeIn(s);
+            },
+
+            hidePopup: function(s) {
+                Anim.fadeOut(s);
+            }
         }
     }
 </script>
@@ -69,6 +91,7 @@
 <style lang="scss">
     @import '@/assets/scss/config.scss';
     @import '@/assets/scss/main.scss';
+    @import '@/assets/scss/Anim.scss';
 
     .account {
         &-content {
