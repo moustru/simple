@@ -68,6 +68,11 @@
                 img {
                     width: 60px;
                     height: 60px;
+                    transition: $transition;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
                 }
             }
         }

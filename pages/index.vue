@@ -9,7 +9,7 @@
     <div class="index-right">
         <h2 class="index-right-title">Вход</h2>
         <form method="POST" action="#" class="form-entry">
-            <input type="text" name="login" class="input input-black" placeholder="Ваш логин"/>
+            <input type="text" name="login" class="input input-black" placeholder="Ваш логин" autocomplete="off">
             <input type="password" name="password" class="input input-black" placeholder="Ваш пароль"/>
             <button type="submit" class="btn btn-yes">Войти</button>
             <a href="/account" class="link">Зарегистрироваться</a>
@@ -67,6 +67,8 @@ export default {
 
     &-left {
         .logo {
+            user-select: none;
+
             &-title {
                 margin-bottom: 20px;
                 font-size: 200px;

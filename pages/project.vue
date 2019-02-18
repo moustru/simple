@@ -100,6 +100,7 @@
         min-width: 320px;
         max-width: 320px;
         height: 200px;
+        margin: 15px 0;
         padding: 15px;
         background-color: #a5a5a5;
         box-shadow: .2px .5px .13px #a5a5a5;
@@ -143,6 +144,7 @@
         min-width: 320px;
         max-width: 320px;
         height: 200px;
+        margin: 15px 0;
         border: 4px dashed $blue;        
     }
 </style>
