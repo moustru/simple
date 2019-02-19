@@ -12,47 +12,28 @@
             <input type="text" name="login" class="input input-black" placeholder="Ваш логин" autocomplete="off">
             <input type="password" name="password" class="input input-black" placeholder="Ваш пароль"/>
             <button type="submit" class="btn btn-yes">Войти</button>
-            <a href="/account" class="link">Зарегистрироваться</a>
+            <a href="#" @click="showPopup('.popup-reg')" class="link">Зарегистрироваться</a>
         </form>
     </div>
-    <div class="popup">
-        <div class="popup-content">
-            <h1 class="popup-title text-bold">Регистрация</h1>
-            <form method="POST" action="#" class="form-reg">
-                <div class="form-reg-content">
-                    <div class="form-reg-inputs">
-                        <input type="email" name="email" class="input input-white" placeholder="Ваш e-mail"/>
-                        <input type="text" name="login" class="input input-white" placeholder="Ваш логин"/>
-                        <input type="text" name="realName" class="input input-white" placeholder="Ваше имя и фамилия"/>
-                        <input type="password" name="password" class="input input-white" placeholder="Ваш пароль"/>
-                        <input type="password" name="password" class="input input-white" placeholder="Повторите пароль"/>
-                    </div>
-                    <div class="form-reg-photo">
-                        <input type="file" name="avatar" id="file1" class="input-photo"/>
-                        <label for="file1" class="photo-field">
-                            <span class="text-bold">Загрузите фотографию (до 2 МБ)</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="form-reg-footer">
-                    <div class="checkbox-block">
-                        <input type="checkbox" id="checkbox1" class="input-checkbox"/>
-                        <label for="checkbox1" class="checkbox-label checkbox-white">Я согласен на обработку персональных данных</label>
-                    </div>
-                    <div class="form-reg-buttons">
-                        <button type="submit" class="btn btn-yes">Зарегистрироваться</button>
-                        <button class="btn btn-no">Отмена</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+    <popup-reg></popup-reg>
   </div>
 </template>
 
 <script>
+import PopupReg from '@/components/popups/Popup-Reg.vue';
+
 export default {
-  name: 'index'
+  name: 'index',
+
+  components: {
+      'popup-reg': PopupReg
+  },
+
+  methods: {
+      showPopup: function(s) {
+          Anim.fadeIn(s);
+      }
+  }
 }
 </script>
 

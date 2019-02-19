@@ -23,7 +23,8 @@ module.exports = {
   modules: ['nuxt-sass-resources-loader'],
 
   sassResources: [
-    '@/assets/scss/main.scss'
+    '@/assets/scss/main.scss',
+    '@/assets/scss/Anim.scss'
   ],
 
   build: {
@@ -55,6 +56,8 @@ module.exports = {
     { src: '@/assets/scss/config.scss', lang: 'scss' }
   //  '@/assets/scss/main.scss',
   //  '@/assets/scss/config.scss'
-  ]
+  ],
+
+  js: [ '~/assets/libs/Anim.js' ]
 }
 
