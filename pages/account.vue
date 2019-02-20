@@ -9,7 +9,7 @@
                     <div class="add-project" @click="showPopup('.popup-new-project')">
                         <img src="~/static/img/icons/plus.svg"/>
                     </div>
-                    <div class="project" @click="slideDown('.project')">
+                    <div class="project" @click="toggleSlide('.project', 300)">
                         <div class="project-info">
                             <span class="project-title text-bold">Проект 1</span>
                             <span class="project-participants">Участников: <span class="participants-count">5</span></span>
@@ -26,6 +26,9 @@
                     <span class="no-projects">Вы пока не состоите ни в одном проекте</span>
                 </div>
             </div>
+        </div>
+        <div class="bar bar-project-info">
+            
         </div>
         <div class="popup popup-new-project">
             <div class="popup-content">
@@ -61,9 +64,6 @@
                 </div>
             </div>
         </div>
-        <div class="bar">
-
-        </div>
     </div>
 </template>
 
@@ -88,13 +88,9 @@
                 Anim.fadeOut(s);
             },
 
-            slideDown: function(s) {
-                Anim.slideDown(s);
-            },
-
-            slideUp: function(s) {
-                Anim.slideUp(s);
-            }           
+            toggleSlide: function(s, endH) {
+                Anim.toggleSlide(s, endH);
+            }
         }
     }
 </script>
@@ -225,14 +221,5 @@
                 }
             }
         }
-    }
-
-    .bar {
-        position: absolute;
-        bottom: -35%;
-        left: 0;
-        width: 100%;
-        height: 35%;
-        background-color: rgba(0, 0, 0, .9);
     }
 </style>

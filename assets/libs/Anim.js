@@ -6,8 +6,8 @@ var sys = {
 
     __getParams: function(s) {
         return {
-            pos : document.querySelector(s).getBoundingClientRect(),
-            width : document.querySelector(s).clientWidth,
+            pos: document.querySelector(s).getBoundingClientRect(),
+            width: document.querySelector(s).clientWidth,
             height: document.querySelector(s).clientHeight
         }
     },
@@ -15,7 +15,16 @@ var sys = {
     __rollY: function(s, dir) {
         document.styleSheets[0].insertRule(`@keyframes slideInY { from { ${dir}: -${this.__getParams(s).height}px } to { ${dir}: 0px } }`);
         document.querySelector(s).style.animation = 'slideInY .3s forwards';       
-    }
+    },
+
+    // __slide: function(s, h) {
+    //     document.styleSheets[0].insertRule(`@keyframes slide { from { height: ${sys.__getParams(s).height}px } to { height: ${h} } }`);
+    //     document.querySelector(s).style.animation = 'slide .3s forwards';
+    //     return {
+    //         begH: sys.__getParams(s).height,
+    //         endH: h
+    //     }
+    // }
 };
 
 var Anim = {    
@@ -57,19 +66,31 @@ var Anim = {
         sys.__rollY(s, 'top');
     },
     
-    slideDown: function(s) {
-        // var childArray = document.querySelector(s).childNodes;
-        // var heightEnd = 0;
-        // for (i = 0; i < childArray.length; i++) {
-        //     if(childArray[i].clientHeight !== undefined) heightEnd += childArray[i].clientHeight;
-        // }
-        document.querySelector(s).classList.remove('slide-up');
-        document.querySelector(s).classList.add('slide-down');
+    slideDown: function(s, h) {
+        document.styleSheets[0].insertRule(`@keyframes slide { from { height: ${sys.__getParams(s).height}px } to { height: ${h} } }`);
+        document.querySelector(s).style.animation = 'slide .3s forwards';
     },
 
-    slideUp: function(s) {
-        document.querySelector(s).style.animation = "slideUp .3s forwards";
-    },    
+    slideUp: function(s, h) {
+        document.styleSheets[0].insertRule(`@keyframes slide { from { height: ${sys.__getParams(s).height}px } to { height: ${h} } }`);
+        document.querySelector(s).style.animation = 'slide .3s forwards';
+    },
+    
+    toggleSlide: function(s, h) {
+        var coefB = h - sys.__getParams(s).height;
+        var coefD, coefU;
+
+        if(coefB > 0) {
+            coefD = h - sys.__getParams(s).height;
+            document.styleSheets[0].insertRule(`@keyframes slide { from { height: ${sys.__getParams(s).height}px } to { height: ${h}px } }`);
+            document.querySelector(s).style.animation = 'slide .3s forwards';
+        } else if(coefB < 0 || coefB == 0) {
+            document.styleSheets[0].insertRule(`@keyframes slide { from { height: ${sys.__getParams(s).height}px } to { height: ${h - coefU}px } }`);
+            document.querySelector(s).style.animation = 'slide .3s forwards';
+        }
+
+        console.log(coefB, coefD);
+    }
 }
 
 module.exports = Anim;
