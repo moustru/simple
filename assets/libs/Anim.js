@@ -15,16 +15,7 @@ var sys = {
     __rollY: function(s, dir) {
         document.styleSheets[0].insertRule(`@keyframes slideInY { from { ${dir}: -${this.__getParams(s).height}px } to { ${dir}: 0px } }`);
         document.querySelector(s).style.animation = 'slideInY .3s forwards';       
-    },
-
-    // __slide: function(s, h) {
-    //     document.styleSheets[0].insertRule(`@keyframes slide { from { height: ${sys.__getParams(s).height}px } to { height: ${h} } }`);
-    //     document.querySelector(s).style.animation = 'slide .3s forwards';
-    //     return {
-    //         begH: sys.__getParams(s).height,
-    //         endH: h
-    //     }
-    // }
+    }
 };
 
 var Anim = {    
@@ -69,28 +60,24 @@ var Anim = {
     slideDown: function(s, h) {
         document.styleSheets[0].insertRule(`@keyframes slide { from { height: ${sys.__getParams(s).height}px } to { height: ${h} } }`);
         document.querySelector(s).style.animation = 'slide .3s forwards';
+        sys.__fade('js-slide-up', 'js-slide-down');
     },
 
     slideUp: function(s, h) {
         document.styleSheets[0].insertRule(`@keyframes slide { from { height: ${sys.__getParams(s).height}px } to { height: ${h} } }`);
         document.querySelector(s).style.animation = 'slide .3s forwards';
+        sys.__fade('js-slide-down', 'js-slide-up');
     },
     
-    toggleSlide: function(s, h) {
-        var coefB = h - sys.__getParams(s).height;
-        var coefD, coefU;
-
-        if(coefB > 0) {
-            coefD = h - sys.__getParams(s).height;
-            document.styleSheets[0].insertRule(`@keyframes slide { from { height: ${sys.__getParams(s).height}px } to { height: ${h}px } }`);
-            document.querySelector(s).style.animation = 'slide .3s forwards';
-        } else if(coefB < 0 || coefB == 0) {
-            document.styleSheets[0].insertRule(`@keyframes slide { from { height: ${sys.__getParams(s).height}px } to { height: ${h - coefU}px } }`);
-            document.querySelector(s).style.animation = 'slide .3s forwards';
+    toggleSlide: function(s, b, e) {
+        if(document.querySelector(s).classList.contains('js-slide-down')) {
+            this.slideUp(s, b);
+        } else {
+            this.slideDown(s, e);
         }
-
-        console.log(coefB, coefD);
     }
 }
 
-module.exports = Anim;
+export default Anim;
+
+//module.exports = Anim;

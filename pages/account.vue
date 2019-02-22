@@ -9,7 +9,7 @@
                     <div class="add-project" @click="showPopup('.popup-new-project')">
                         <img src="~/static/img/icons/plus.svg"/>
                     </div>
-                    <div class="project" @click="toggleSlide('.project', 300)">
+                    <div class="project" @click="toggleSlide('.project', '120px', '300px')">
                         <div class="project-info">
                             <span class="project-title text-bold">Проект 1</span>
                             <span class="project-participants">Участников: <span class="participants-count">5</span></span>
@@ -71,7 +71,7 @@
     import Header from '@/components/Header.vue';
     import Anim from '@/assets/libs/Anim';
 
-//    if(process.client) require('@/assets/libs/Anim');
+    //if(process.client) require('@/assets/libs/Anim');
 
     export default {
         name: 'account',
@@ -88,8 +88,8 @@
                 Anim.fadeOut(s);
             },
 
-            toggleSlide: function(s, endH) {
-                Anim.toggleSlide(s, endH);
+            toggleSlide: function(s, b, e) {
+                Anim.toggleSlide(s, b, e);
             }
         }
     }
