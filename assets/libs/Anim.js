@@ -70,14 +70,18 @@ var Anim = {
     },
     
     toggleSlide: function(s, b, e) {
-        if(document.querySelector(s).classList.contains('js-slide-down')) {
-            this.slideUp(s, b);
+        var h = getComputedStyle(document.querySelector(s)).height;
+
+        if(h == b) {
+            document.querySelector(s).style.animation = 'none';
+            document.styleSheets[0].insertRule(`@keyframes slideDown { from { height: ${h} } to { height: ${e} } }`);
+            document.querySelector(s).style.animation = 'slideDown .3s forwards';
         } else {
-            this.slideDown(s, e);
+            document.querySelector(s).style.animation = 'none';
+            document.styleSheets[0].insertRule(`@keyframes slideUp { from { height: ${h} } to { height: ${b} } }`);
+            document.querySelector(s).style.animation = 'slideUp .3s forwards';
         }
     }
 }
 
 export default Anim;
-
-//module.exports = Anim;

@@ -9,7 +9,7 @@
                     <div class="add-project" @click="showPopup('.popup-new-project')">
                         <img src="~/static/img/icons/plus.svg"/>
                     </div>
-                    <div class="project" @click="toggleSlide('.project', '120px', '300px')">
+                    <div class="project" @click="toggleSlide('.project', '180px', '25vw')">
                         <div class="project-info">
                             <span class="project-title text-bold">Проект 1</span>
                             <span class="project-participants">Участников: <span class="participants-count">5</span></span>
@@ -90,7 +90,17 @@
 
             toggleSlide: function(s, b, e) {
                 Anim.toggleSlide(s, b, e);
+
+                if(window.innerWidth <= 768) {
+                    
+                }
             }
+        },
+
+        mounted() {
+            var anim = new Anim({
+                el: '.project'
+            });
         }
     }
 </script>
