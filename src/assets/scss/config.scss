@@ -1,0 +1,29 @@
+// vars
+
+$skyblue: #62b0f3;
+$green: #4aa902;
+$red: #ce3333;
+$yellow: #e9f36b;
+$skyblue-hover: #4391d4;
+$green-hover: #2b8a00;
+$red-hover: #af1414;
+
+$transition: all .2s ease;
+
+// mixins
+
+@mixin Flex($justify-content: flex-start, $align-items: flex-start, $flex-direction: row, $flex-wrap: nowrap) {
+    display: flex;
+    justify-content: $justify-content;
+    align-items: $align-items;
+    flex-direction: $flex-direction;
+    flex-wrap: $flex-wrap;
+}
+
+@mixin Button($color, $hover) {
+    background-color: $color;
+
+    &:hover {
+        background-color: $hover;
+    }
+}
