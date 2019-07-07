@@ -180,6 +180,13 @@ textarea {
     border-color: $red !important;
 }
 
+.enter-task {
+    width: 90%;
+    height: 170px;
+    margin: 10px auto;
+    border: 4px dashed $skyblue;        
+}
+
 // === IMAGES ===
 
 .ava {
