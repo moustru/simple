@@ -33,6 +33,7 @@
 
 <script>
     import axios from 'axios';
+    import API from './../config.js';
 
     export default {
         data() {
@@ -53,7 +54,12 @@
 
         methods: {
             login() {
-                axios.post('http://127.0.0.1:8002/auth', this.user).then(res => {
+                axios.post(`/auth`, this.user).then(res => {
+                    this.setToken({
+                        token: res.data.token,
+                        userId: res.data.login
+                    })
+
                     this.$router.push(`${res.data.login}/account`)
                 }).catch(err => {
                     this.error.visible = true;
@@ -61,15 +67,34 @@
                     
                     setTimeout(() => {
                         this.error.visible = false;
-                        this.error.message = null;                        
+                        this.error.message = null;
                     }, 2000)
                 })
             },
 
             reg() {
-                axios.post('http://127.0.0.1:8002/reg', this.user).then(res => {
-                    if(res.status == 200) this.$router.push(`${res.data.login}/account`)
+                axios.post(`/reg`, this.user).then(res => {
+                    this.setToken({
+                        token: res.data.token,
+                        userId: res.data.login
+                    })
+                    
+                    this.$router.push(`${res.data.login}/account`)
                 })
+            },
+
+            setToken(payload) {
+                try {
+                    let token = payload.token
+                    let userId = payload.userId
+                    localStorage.setItem('user-token', token)
+                    localStorage.setItem('user-id', userId)
+                    //window.location.reload()
+                } catch(err) {
+                    localStorage.removeItem('user-token')
+                    localStorage.removeItem('user-id')
+                    console.log(err);
+                }
             }
         }
     }
