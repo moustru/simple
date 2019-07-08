@@ -37,6 +37,12 @@ input {
     }
 }
 
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
 textarea {
     resize: none;
 }
@@ -91,6 +97,7 @@ textarea {
     }
 
     &-modal {
+        width: 100%;
         margin: 5px 0;
         padding: 5px 0;
         border: none;
@@ -98,6 +105,10 @@ textarea {
         color: #fff;
         font-size: 20px;
         text-align: center;
+
+        option {
+            color: #000;
+        }
     }
 }
 
@@ -138,6 +149,7 @@ textarea {
     padding: 2% 0;
 
     &-field {
+        position: relative;
         height: inherit;
     }
 }
@@ -162,8 +174,22 @@ textarea {
         text-align: center;
     }
 
+    &-body {
+        @include Flex(flex-start, center, column);
+
+        select {
+            width: auto;
+        }
+    }
+
     &-title {
         font-size: 72px;
+    }
+
+    &-subtitle {
+        display: block;
+        margin: 15px 0;
+        font-size: 24px;
     }
 
     &-footer {
@@ -177,7 +203,12 @@ textarea {
 }
 
 .invalid {
-    border-color: $red !important;
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    color: $red;
+    text-align: center;
+    font-family: 'Montserrat Bold', sans-serif;
 }
 
 .enter-task {

@@ -1,23 +1,33 @@
 <template>
     <div class="header">
-        <div class="header-user">
+        <div class="header-user" @click="$router.push('/account')">
             <div class="header-user-img">
                 <img src="img/no_user.png" class=" ava ava-large"/>
             </div>
             <div class="header-user-info">
-                <span class="user-info-name">moust петрович</span>
-                <span class="user-info-login">mylogin</span>
+                <span class="user-info-name">{{ name }}</span>
+                <span class="user-info-login">{{ login }}</span>
             </div>
         </div>
         <div class="header-panel">
             <div class="header-panel-icon"><img src="img/logout.svg"/></div>
+        </div>
+
+        <div class="modal" v-if="false">
+            <div class="modal-header">
+                <h2 class="modal-title title">Вы действительно хотите выйти?</h2>
+            </div>
+            <div class="modal-footer">
+                <button class="btns btn-yes">Да</button>
+                <button class="btns btn-no">Нет</button>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        
+        props: [ 'name', 'login' ]
     }
 </script>
 
@@ -33,6 +43,7 @@
 
     &-user {
         @include Flex(flex-start, center);
+        cursor: pointer;
 
         &-img {
             margin-right: 10px;

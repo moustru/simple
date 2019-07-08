@@ -1,34 +1,18 @@
 <template>
     <div class="main-field">
-        <header-component/>
+        <header-component :name="account.name" :login="account.login"/>
         <div class="content">
             <div class="content-admin">
                 <h2 class="content-title title">Ваши доски</h2>
                 <div class="content-projects">
-                    <div class="project">
-                        <div class="project-header">
-                            <span class="project-title">Проект 1</span>
-                            <span class="project-parts">Участников: 5</span>
-                        </div>
-                        <div class="project-footer">
-                            <span class="project-footer-title">Перейти к доске</span>
-                        </div>
-                    </div>
+                    <project-card/>
                     <div class="project-add">+</div>
                 </div>
             </div>
             <div class="content-parts">
                 <h2 class="content-title title">Участник</h2>
                 <div class="content-projects">
-                    <div class="project">
-                        <div class="project-header">
-                            <span class="project-title">Проект 1</span>
-                            <span class="project-parts">Участников: 5</span>
-                        </div>
-                        <div class="project-footer">
-                            <span class="project-footer-title">Перейти к доске</span>
-                        </div>
-                    </div>
+                    <project-card/>
                 </div>
             </div>
         </div>
@@ -45,14 +29,40 @@
                 <button class="btns btn-no">Отмена</button>
             </div>
         </div>
+
+        <div class="modal" v-if="false">
+            <div class="modal-header">
+                <h2 class="modal-title title">Вы действительно хотите удалить проект?</h2>
+                <span class="modal-subtitle">Восстановить проект будет невозможно!</span>
+            </div>
+            <div class="modal-footer">
+                <button class="btns btn-yes">Да</button>
+                <button class="btns btn-no">Нет</button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import HeaderComponent from './../components/Header.vue';
+    import ProjectCard from './../components/Account/ProjectCard.vue';
+    import axios from 'axios';
 
     export default {
-        components: { HeaderComponent }
+        data() {
+            return {
+                id: this.$route.params.id,
+                account: {}
+            }
+        },
+
+        components: { HeaderComponent, ProjectCard },
+
+        mounted() {
+            axios.get(`http://127.0.0.1:8002/${this.id}/account`).then(res => {
+                this.account = res.data;
+            })
+        }
     }
 </script>
 
@@ -67,36 +77,6 @@
 
     &-projects {
         @include Flex(flex-start, flex-start, row, wrap);
-    }
-}
-
-.project {
-    position: relative;
-    width: 24%;
-    height: 170px;
-    margin-right: 1%;
-    padding: 10px;
-    background-color: #a5a5a5;
-    cursor: pointer;
-
-    &-header {
-        @include Flex(flex-start, flex-start, column);
-    }
-
-    &-title {
-        padding-bottom: 5px;
-        font-size: 22px;
-    }
-
-    &-footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        @include Flex(center, center);
-        width: 100%;
-        height: 30%;
-        background-color: #f5f5f5;
-        font-weight: 800;
     }
 }
 

@@ -1,5 +1,4 @@
 <template>
-    <!-- <div class="task im-1" id="task-1" draggable @dragstart="dragStart" @dragend="dragEnd"> -->
     <div class="task im-1" id="task-1">
         <div class="task-header">
             <span class="task-title">Починить бля все</span>
@@ -22,16 +21,7 @@
         },
 
         methods: {
-            // dragStart(ev) {
-            //     ev.dataTransfer.dropEffect = 'move';
-            //     ev.dataTransfer.setData('text', ev.target.getAttribute('id'));
-            //     this.dropped = true;
-            // },
 
-            // dragEnd(ev) {
-            //     ev.preventDefault();
-            //     this.dropped = false;
-            // }
         }
     }
 </script>
