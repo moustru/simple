@@ -1,11 +1,11 @@
 <template>
-    <div class="project">
-        <span class="project-delete">
+    <div class="project" :style="{ 'background-color': project.color }">
+        <span class="project-delete" @click="deleteProject">
             <img src="img/delete.svg"/>
         </span>
         <div class="project-header">
-            <span class="project-title">Проект 1</span>
-            <span class="project-parts">Участников: 5</span>
+            <span class="project-title">{{ project.title }}</span>
+            <span class="project-parts">Участников: {{ project.team.length }}</span>
         </div>
         <div class="project-footer">
             <span class="project-footer-title">Перейти к доске</span>
@@ -15,7 +15,13 @@
 
 <script>
     export default {
+        props: [ 'project' ],
 
+        methods: {
+            deleteProject() {
+                this.$emit('delete');
+            }
+        }
     }
 </script>
 
@@ -27,6 +33,7 @@
     width: 24%;
     height: 170px;
     margin-right: 1%;
+    margin-bottom: 1%;
     padding: 10px;
     background-color: #a5a5a5;
 
