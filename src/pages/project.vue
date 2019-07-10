@@ -1,30 +1,30 @@
 <template>
     <div class="main-field">
-        <header-component/>
-        <h3 class="project-title title">Проект 1</h3>
+        <header-component :name="account.name" :login="account.login"/>
+        <h3 class="project-title title">{{ projectData.title }}</h3>
         <div class="project-field">
-            <column class="project-field-col" v-for="(col, i) in cols" :key="i" :title="col">
+            <column class="project-field-col" v-for="(col, i) in projectData.tasks" :key="i" :title="col.status">
                 <template slot="tasks">
-                    <task/>
+                    <task v-for="(task, j) in col.tasksIds" :key="j"/>
                 </template>
             </column>
         </div>
-        <div class="add-task">+</div>
+        <div class="add-task" @click="openModalAddTask">+</div>
 
-        <div class="modal" v-if="false">
+        <div class="modal" v-if="modals.addTask">
             <div class="modal-header">
                 <h2 class="modal-title title">Новая задача</h2>
             </div>
             <div class="modal-body">
-                <input class="input-modal" type="text" placeholder="Заголовок задачи"/>
-                <select class="input-modal">
-                    <option selected disabled>Выберите приоритет</option>
-                    <option>Очень важная</option>
-                    <option>Важная</option>
-                    <option>Не важная</option>
+                <input v-model="newTask.title" class="input-modal" type="text" placeholder="Заголовок задачи"/>
+                <select class="input-modal" v-model="newTask.priority">
+                    <option selected disabled :value="null">Выберите приоритет</option>
+                    <option :value="'extra'">Очень важная</option>
+                    <option :value="'important'">Важная</option>
+                    <option :value="'not-important'">Не важная</option>
                 </select>
-                <textarea class="input-modal" rows="10" placeholder="Описание задачи"></textarea>
-                <select class="input-modal">
+                <textarea v-model="newTask.desc" class="input-modal" rows="10" placeholder="Описание задачи"></textarea>
+                <select class="input-modal" v-model="newTask.assignTo">
                     <option selected disabled>Исполнитель</option>
                     <option>Евгений Могирко</option>
                     <option>Станислав Дементьев</option>
@@ -33,13 +33,14 @@
             </div>
             <div class="modal-footer">
                 <button class="btns btn-yes">Создать</button>
-                <button class="btns btn-no">Отмена</button>
+                <button class="btns btn-no" @click="closeModalAddTask">Отмена</button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import axios from 'axios';
     import HeaderComponent from './../components/Header.vue';
     import Column from './../components/Project/Col.vue';
     import Task from './../components/Project/Task.vue';
@@ -48,17 +49,49 @@
     export default {
         data() {
             return {
-                cols: [ 'Icebox', 'Ready for dev', 'In dev', 'In test', 'Complete' ]
+                id: this.$route.params.id,
+                projectId: this.$route.params.projectId,
+                account: {},
+                projectData: {},
+                newTask: {
+                    title: null,
+                    priority: null,
+                    desc: null,
+                    assignTo: null
+                },
+                modals: {
+                    addTask: false
+                }
             }
         },
 
         components: { HeaderComponent, Column, Task },
 
         methods: {
+            getData() {
+                axios.get(`${this.id}/project/${this.projectId}`).then(res => {
+                    this.projectData = res.data;
+                })
+            },
 
+            getUserInfo() {
+                axios.get(`/${this.id}/account`).then(res => {
+                    this.account = res.data;
+                })
+            },
+
+            openModalAddTask() {
+                this.modals.addTask = true;
+            },
+
+            closeModalAddTask() {
+                this.modals.addTask = false;
+            }
         },
 
         mounted() {
+            this.getData();
+            this.getUserInfo();
             Drag.init();
         }
     }

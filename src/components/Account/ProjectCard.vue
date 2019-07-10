@@ -7,7 +7,7 @@
             <span class="project-title">{{ project.title }}</span>
             <span class="project-parts">Участников: {{ project.team.length }}</span>
         </div>
-        <div class="project-footer">
+        <div class="project-footer" @click="$router.push(`project/${project._id}`)">
             <span class="project-footer-title">Перейти к доске</span>
         </div>
     </div>
@@ -52,6 +52,10 @@
     &-title {
         padding-bottom: 5px;
         font-size: 22px;
+    }
+
+    &-parts {
+        font-size: 13px;
     }
 
     &-footer {
