@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="header-user" @click="$router.push('/account')">
+        <div class="header-user" @click="$router.push(`/${$route.params.id}/account`)">
             <div class="header-user-img">
                 <img src="img/no_user.png" class=" ava ava-large"/>
             </div>

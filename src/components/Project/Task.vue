@@ -1,19 +1,21 @@
 <template>
-    <div class="task im-1" id="task-1">
+    <div :id="task._id" :style="{ 'background-color': task.color }" v-if="task.status === col">
         <div class="task-header">
-            <span class="task-title">Починить бля все</span>
+            <span class="task-title">{{ task.title }}</span>
         </div>
         <div class="task-footer">
             <div class="task-footer-img">
-                <img src="img/no_user.png" class=" ava ava-small"/>
+                <img src="img/no_user.png" class="ava ava-small"/>
             </div>
-            <span class="task-footer-user">Евгений Могирко</span>
+            <span class="task-footer-user">{{ task.assignTo }}</span>
         </div>                        
     </div>
 </template>
 
 <script>
     export default {
+        props: [ 'task', 'col' ],
+
         data() {
             return {
                 dropped: false
@@ -59,8 +61,4 @@
         font-weight: 800;
     }
 }
-
-.im-1 { background-color: lighten($red, 30%) }
-.im-2 { background-color: lighten($yellow, 20%) }
-.im-3 { background-color: lighten($green, 55%) }
 </style>

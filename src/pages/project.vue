@@ -3,9 +3,9 @@
         <header-component :name="account.name" :login="account.login"/>
         <h3 class="project-title title">{{ projectData.title }}</h3>
         <div class="project-field">
-            <column class="project-field-col" v-for="(col, i) in projectData.tasks" :key="i" :title="col.status">
+            <column class="project-field-col" v-for="(col, i) in cols" :key="i" :title="col">
                 <template slot="tasks">
-                    <task v-for="(task, j) in col.tasksIds" :key="j"/>
+                    <task v-for="(task, j) in projectData.tasks" :key="j" :task="task" :col="col" class="task"/>
                 </template>
             </column>
         </div>
@@ -19,9 +19,9 @@
                 <input v-model="newTask.title" class="input-modal" type="text" placeholder="Заголовок задачи"/>
                 <select class="input-modal" v-model="newTask.priority">
                     <option selected disabled :value="null">Выберите приоритет</option>
-                    <option :value="'extra'">Очень важная</option>
-                    <option :value="'important'">Важная</option>
-                    <option :value="'not-important'">Не важная</option>
+                    <option :value="'EXTRA'">Очень важная</option>
+                    <option :value="'IMPORTANT'">Важная</option>
+                    <option :value="'NOT_IMPORTANT'">Не важная</option>
                 </select>
                 <textarea v-model="newTask.desc" class="input-modal" rows="10" placeholder="Описание задачи"></textarea>
                 <select class="input-modal" v-model="newTask.assignTo">
@@ -32,7 +32,7 @@
                 </select>
             </div>
             <div class="modal-footer">
-                <button class="btns btn-yes">Создать</button>
+                <button class="btns btn-yes" @click="addTask">Создать</button>
                 <button class="btns btn-no" @click="closeModalAddTask">Отмена</button>
             </div>
         </div>
@@ -51,6 +51,7 @@
             return {
                 id: this.$route.params.id,
                 projectId: this.$route.params.projectId,
+                cols: [ 'Icebox', 'Ready for dev', 'In dev', 'In test', 'Complete' ],
                 account: {},
                 projectData: {},
                 newTask: {
@@ -67,16 +68,49 @@
 
         components: { HeaderComponent, Column, Task },
 
+        computed: {
+            setColor() {
+                switch(this.newTask.priority) {
+                    case 'EXTRA':
+                        return '#f1b6b6';
+                        break;
+                    case 'IMPORTANT':
+                        return '#f1eab6';
+                        break;
+                    case 'NOT_IMPORTANT':
+                        return '#cff1b6';
+                        break;
+                }                
+            }
+        },
+
         methods: {
-            getData() {
-                axios.get(`${this.id}/project/${this.projectId}`).then(res => {
+            async getData() {
+                await axios.get(`${this.id}/project/${this.projectId}`).then(res => {
                     this.projectData = res.data;
                 })
+
+                await Drag.init();
             },
 
             getUserInfo() {
                 axios.get(`/${this.id}/account`).then(res => {
                     this.account = res.data;
+                })
+            },
+
+            addTask() {
+                let data = {
+                    title: this.newTask.title,
+                    desc: this.newTask.desc,
+                    assignTo: this.newTask.assignTo,
+                    priority: this.newTask.priority,
+                    color: this.setColor
+                }
+
+                axios.post(`/${this.id}/project/${this.projectId}/add-task`, data).then(() => {
+                    this.closeModalAddTask();
+                    this.getData();
                 })
             },
 
@@ -92,8 +126,11 @@
         mounted() {
             this.getData();
             this.getUserInfo();
-            Drag.init();
-        }
+        },
+
+        // beforeUpdate() {
+        //     Drag.init()
+        // }
     }
 </script>
 
