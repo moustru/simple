@@ -1,5 +1,5 @@
 <template>
-    <div class="col">
+    <div class="col" @drop="dropTask(title)">
         <div class="col-head">{{ title }}</div>
         <div class="col-body">
             <slot name="tasks"></slot>
@@ -18,7 +18,9 @@
         },
 
         methods: {
-           
+            dropTask(id) {
+                this.$emit('drop-task', id);
+            }
         }
     }
 </script>

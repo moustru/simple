@@ -16,7 +16,7 @@ export default new VueRouter({
             component: require('./../pages/account.vue').default
         },
         {
-            path: '/:id/project/:projectId',
+            path: '/project/:projectId',
             name: 'project',
             component: require('./../pages/project.vue').default
         }

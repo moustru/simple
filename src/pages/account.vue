@@ -8,14 +8,15 @@
                     <project-card v-for="(project, i) in account.projectsAdmin" 
                                   :key="i" 
                                   :project="project"
-                                  @delete="openModalDelete(project._id)"/>
+                                  @delete="openModalDelete(project._id)"
+                                  @share="openModalShare(project._id)"/>
                     <div class="project-add" @click="openModalAdd">+</div>
                 </div>
             </div>
             <div class="content-parts">
                 <h2 class="content-title title">Участник</h2>
                 <div class="content-projects">
-                    <project-card v-for="(project, i) in account.projectsTeam" :key="i"/>
+                    <project-card v-for="(project, i) in account.projectsTeam" :key="i" :project="project"/>
                     <span class="no-projects">Вы не состоите ни в одном проекте как участник</span>
                 </div>
             </div>
@@ -56,6 +57,19 @@
                 <button class="btns btn-no" @click="closeModalDelete">Нет</button>
             </div>
         </div>
+
+        <div class="modal" v-if="modals.shareProject">
+            <div class="modal-header">
+                <h2 class="modal-title title">Приглашение участников</h2>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="share" class="input-modal" v-model="share"/>
+            </div>
+            <div class="modal-footer">
+                <button class="btns btn-yes" @click="copyLink">Скопировать ссылку</button>
+                <button class="btns btn-no" @click="closeModalShare">Закрыть</button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -72,13 +86,15 @@
                 modals: {
                     addProject: false,
                     deleteProject: false,
+                    shareProject: false
                 },
                 colors: [ '#f1b6b6', '#f1cfb6', '#f1eab6', '#cff1b6', '#b6f1e4', '#b6d3f1', '#b7b6f1', '#e0b6f1' ],
                 newProject: {
                     title: null,
                     color: '#f1b6b6'
                 },
-                relatedProject: null
+                relatedProject: null,
+                share: null
             }
         },
 
@@ -111,6 +127,12 @@
                 this.newProject.color = color;
             },
 
+            copyLink() {
+                const linkText = document.getElementById('share');
+                linkText.select();
+                document.execCommand('copy');
+            },
+
             openModalAdd() {
                 this.modals.addProject = true;
             },
@@ -130,7 +152,18 @@
 
             closeModalDelete() {
                 this.modals.deleteProject = false;
-            }
+            },
+
+            openModalShare(id) {
+                axios.get(`project/${id}/share`).then(res => {
+                    this.share = `http://localhost:9000/project/share/${res.data.link}`;
+                    this.modals.shareProject = true;
+                })
+            },
+
+            closeModalShare() {
+                this.modals.shareProject = false;
+            }            
         },
 
         mounted() {
@@ -196,5 +229,9 @@
 
 .this-color {
     border: 4px solid $skyblue-hover !important;
+}
+
+.share-link {
+    margin: 20px 0;
 }
 </style>

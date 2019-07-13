@@ -4,7 +4,6 @@ const Drag = {
     init: function() {
         const $tasks = document.querySelectorAll('.task');
         const $cols = document.querySelectorAll('.col-body');
-        var dropped = false;
         
         if($tasks) {
             [].forEach.call($tasks, el => {
@@ -51,15 +50,12 @@ const Drag = {
             
             this.children.length == 0 ? this.appendChild(el) : this.insertBefore(el, this.children[0]);
         
-            dropped = true;
-        
             var addTask = this.querySelector('.enter-task');
             addTask.parentNode.removeChild(addTask);
         }
         
-        function dragEnd() {
-            dropped = false;
-            this.parentNode.classList.remove('over');
+        function dragEnd(ev) {
+            ev.preventDefault();
         }
     }
 }

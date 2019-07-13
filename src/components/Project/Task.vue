@@ -1,14 +1,17 @@
 <template>
-    <div :id="task._id" :style="{ 'background-color': task.color }" v-if="task.status === col">
+    <div :id="task._id" :style="{ 'background-color': task.color }" @click="openTask" class="task" @dragend="moveTask(task)">
         <div class="task-header">
             <span class="task-title">{{ task.title }}</span>
         </div>
-        <div class="task-footer">
+        <div v-if="task.assignTo" class="task-footer">
             <div class="task-footer-img">
                 <img src="img/no_user.png" class="ava ava-small"/>
             </div>
             <span class="task-footer-user">{{ task.assignTo }}</span>
-        </div>                        
+        </div>
+        <div v-else class="task-footer">
+            <span class="task-footer-user">Не назначена</span>
+        </div>
     </div>
 </template>
 
@@ -18,12 +21,18 @@
 
         data() {
             return {
-                dropped: false
+                status: null
             }
         },
 
         methods: {
+            openTask() {
+                this.$emit('open');
+            },
 
+            moveTask(id) {
+                this.$emit('move', id);
+            }
         }
     }
 </script>
@@ -59,6 +68,11 @@
         height: 30%;
         background-color: #f5f5f5;
         font-weight: 800;
+
+        &-user {
+            margin-left: 5px;
+            font-size: 13px;
+        }
     }
 }
 </style>

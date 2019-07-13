@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="header-user" @click="$router.push(`/${$route.params.id}/account`)">
+        <div class="header-user" @click="$router.push(`/${id}/account`)">
             <div class="header-user-img">
                 <img src="img/no_user.png" class=" ava ava-large"/>
             </div>
@@ -10,16 +10,16 @@
             </div>
         </div>
         <div class="header-panel">
-            <div class="header-panel-icon"><img src="img/logout.svg"/></div>
+            <div class="header-panel-icon" @click="openModalExit"><img src="img/logout.svg"/></div>
         </div>
 
-        <div class="modal" v-if="false">
+        <div class="modal" v-if="modals.exit">
             <div class="modal-header">
                 <h2 class="modal-title title">Вы действительно хотите выйти?</h2>
             </div>
             <div class="modal-footer">
-                <button class="btns btn-yes">Да</button>
-                <button class="btns btn-no">Нет</button>
+                <button class="btns btn-yes" @click="logOut">Да</button>
+                <button class="btns btn-no" @click="closeModalExit">Нет</button>
             </div>
         </div>
     </div>
@@ -27,7 +27,31 @@
 
 <script>
     export default {
-        props: [ 'name', 'login' ]
+        props: [ 'name', 'login' ],
+        data() {
+            return {
+                id: localStorage.getItem('user-id'),
+                modals: {
+                    exit: false
+                }
+            }
+        },
+
+        methods: {
+            logOut() {
+                localStorage.removeItem('user-token')
+                localStorage.removeItem('user-id')
+                window.location.reload();
+            },
+
+            openModalExit() {
+                this.modals.exit = true;
+            },
+
+            closeModalExit() {
+                this.modals.exit = false;
+            }
+        }
     }
 </script>
 

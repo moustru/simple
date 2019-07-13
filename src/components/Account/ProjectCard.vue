@@ -1,13 +1,14 @@
 <template>
     <div class="project" :style="{ 'background-color': project.color }">
-        <span class="project-delete" @click="deleteProject">
-            <img src="img/delete.svg"/>
+        <span class="project-panel">
+            <img src="img/delete.svg" @click="deleteProject"/>
+            <img src="img/share.svg" @click="shareProject"/>
         </span>
         <div class="project-header">
             <span class="project-title">{{ project.title }}</span>
             <span class="project-parts">Участников: {{ project.team.length }}</span>
         </div>
-        <div class="project-footer" @click="$router.push(`project/${project._id}`)">
+        <div class="project-footer" @click="$router.push(`/project/${project._id}`)">
             <span class="project-footer-title">Перейти к доске</span>
         </div>
     </div>
@@ -20,6 +21,10 @@
         methods: {
             deleteProject() {
                 this.$emit('delete');
+            },
+
+            shareProject() {
+                this.$emit('share');
             }
         }
     }
@@ -37,16 +42,24 @@
     padding: 10px;
     background-color: #a5a5a5;
 
-    &-delete {
+    &-panel {
         position: absolute;
         top: 3%;
         right: 3%;
+        @include Flex(center, center, column);
         font-size: 32px;
-        cursor: pointer;
+
+        img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
     }
 
     &-header {
         @include Flex(flex-start, flex-start, column);
+        width: 90%;
     }
 
     &-title {
@@ -55,7 +68,7 @@
     }
 
     &-parts {
-        font-size: 13px;
+        font-size: 15px;
     }
 
     &-footer {
