@@ -3,15 +3,12 @@
         <header-component :name="account.name" :login="account.login"/>
         <h3 class="project-title title">{{ projectData.title }}</h3>
         <div class="project-field">
-            <column class="project-field-col" v-for="(col, i) in cols" :key="i" :title="col" @drop-task="dropTask($event)">
-                <template slot="tasks">
-                    <task v-if="task.status === col"
-                        v-for="(task, j) in projectData.tasks" :key="j"
-                        :task="task" 
-                        :col="col" 
-                        @open="openFullTask"
-                        @move="moveTask($event)"/>
-                </template>
+            <column class="project-field-col" v-for="(col, i) in cols" :key="i" :title="col" @drop-task="dropTask(col)">
+                <task v-for="(task, j) in projectData.tasks" :key="j" v-if="task.status === col"
+                    :task="task" 
+                    :col="col" 
+                    @open="openFullTask"
+                    @move="moveTask(task)"/>
             </column>
         </div>
         <div class="add-task" @click="openModalAddTask">+</div>
@@ -30,11 +27,12 @@
                     <option :value="'NOT_IMPORTANT'">Не важная</option>
                 </select>
                 <textarea v-model="newTask.desc" class="input-modal" rows="10" placeholder="Описание задачи"></textarea>
-                <select class="input-modal" v-model="newTask.assignTo">
+                <select class="input-modal" v-model="newTask.assignTo.login" @change="setAssignName">
                     <option selected disabled :value="null">Исполнитель</option>
-                    <option :value="'moustru'">Евгений Могирко</option>
+                    <option v-for="(participant, i) in projectData.team" :key="i" :value="participant.login">{{ participant.name }}</option>
+                    <!-- <option :value="'moustru'">Евгений Могирко</option>
                     <option :value="'stasonio'">Станислав Дементьев</option>
-                    <option :value="'filipp'">Филипп Хорольский</option>
+                    <option :value="'filipp'">Филипп Хорольский</option> -->
                 </select>
             </div>
             <div class="modal-footer">
@@ -93,7 +91,7 @@
     import HeaderComponent from './../components/Header.vue';
     import Column from './../components/Project/Col.vue';
     import Task from './../components/Project/Task.vue';
-    import Drag from './../assets/js/drag.js';
+    import Drag from './../assets/js/drag';
 
     export default {
         data() {
@@ -152,7 +150,7 @@
                     this.projectData = res.data;
                 })
 
-                await Drag.init();
+                await Drag.updateElements();
             },
 
             getUserInfo() {
@@ -196,6 +194,13 @@
             closeModalAddTask() {
                 this.modals.noTasks = true;
                 this.modals.addTask = false;
+
+                this.newTask = {
+                    title: null,
+                    priority: null,
+                    desc: null,
+                    assignTo: null
+                }
             },
 
             openFullTask() {
@@ -219,11 +224,9 @@
         mounted() {
             this.getData();
             this.getUserInfo();
-        }
 
-        // beforeUpdate() {
-        //     Drag.init()
-        // }
+            document.addEventListener('DOMContentLoaded', Drag.init())
+        }
     }
 </script>
 

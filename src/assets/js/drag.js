@@ -1,14 +1,13 @@
 // Drag-n-Drop
 
+var $tasks, $cols;
+
 const Drag = {
     init: function() {
-        const $tasks = document.querySelectorAll('.task');
-        const $cols = document.querySelectorAll('.col-body');
-        
+        this.updateElements();
+
         if($tasks) {
             [].forEach.call($tasks, el => {
-                el.setAttribute('draggable', 'true');
-                el.addEventListener('dragstart', dragStart, false);
                 el.addEventListener('dragend', dragEnd, false);
             })
         }
@@ -57,6 +56,11 @@ const Drag = {
         function dragEnd(ev) {
             ev.preventDefault();
         }
+    },
+
+    updateElements: function() {
+        $tasks = document.querySelectorAll('.task');
+        $cols = document.querySelectorAll('.col-body');
     }
 }
 

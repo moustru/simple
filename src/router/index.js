@@ -19,6 +19,16 @@ export default new VueRouter({
             path: '/project/:projectId',
             name: 'project',
             component: require('./../pages/project.vue').default
+        },
+        {
+            path: '/error',
+            name: 'error',
+            component: require('./../pages/error.vue').default
+        },
+        {
+            path: '/project/share/:shareLink',
+            name: 'confirm',
+            component: require('./../pages/confirm.vue').default
         }
     ]
 })

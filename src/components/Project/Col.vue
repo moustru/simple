@@ -1,8 +1,8 @@
 <template>
-    <div class="col" @drop="dropTask(title)">
+    <div class="col">
         <div class="col-head">{{ title }}</div>
-        <div class="col-body">
-            <slot name="tasks"></slot>
+        <div class="col-body" @drop="dropTask">
+            <slot></slot>
         </div>
     </div>
 </template>

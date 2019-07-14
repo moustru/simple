@@ -1,5 +1,11 @@
 <template>
-    <div :id="task._id" :style="{ 'background-color': task.color }" @click="openTask" class="task" @dragend="moveTask(task)">
+    <div class="task"
+         :id="task._id" 
+         :style="{ 'background-color': task.color }" 
+         @click="openTask"
+         @dragstart="dragStart"
+         @dragend="moveTask"  
+         draggable>
         <div class="task-header">
             <span class="task-title">{{ task.title }}</span>
         </div>
@@ -26,6 +32,20 @@
         },
 
         methods: {
+            dragStart(ev) {
+                ev.dataTransfer.dropEffect = 'move';
+                ev.dataTransfer.setData('text', ev.target.getAttribute('id'));
+            },
+
+            dragEnd(ev) {
+                ev.preventDefault();
+            },
+
+            // setAssignName() {
+            //     const relatedUser = this.projectData.team.find(x => x.login === this.task.assignTo);
+                
+            // },
+
             openTask() {
                 this.$emit('open');
             },
