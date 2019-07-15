@@ -77,12 +77,13 @@
     import HeaderComponent from './../components/Header.vue';
     import ProjectCard from './../components/Account/ProjectCard.vue';
     import axios from 'axios';
+    import { mapState, mapActions } from 'vuex';
 
     export default {
         data() {
             return {
                 id: this.$route.params.id,
-                account: {},
+                //account: {},
                 modals: {
                     addProject: false,
                     deleteProject: false,
@@ -94,33 +95,45 @@
                     color: '#f1b6b6'
                 },
                 relatedProject: null,
-                share: null
+                //share: null
             }
         },
 
         components: { HeaderComponent, ProjectCard },
 
+        computed: {
+            ...mapState({
+                'account': state => state.account.account,
+                'share': state => state.account.share
+            })
+        },
+
         methods: {
-            getInfo() {
-                axios.get(`/${this.id}/account`).then(res => {
-                    this.account = res.data;
-                })
-            },
+            ...mapActions('account', [
+                'GET_ACCOUNT_INFO',
+                'ADD_PROJECT',
+                'DELETE_PROJECT',
+                'GET_SHARE_LINK'
+            ]),
 
             addProject() {
-                axios.post(`/${this.id}/account/add-project`, this.newProject).then(() => {
+                this.ADD_PROJECT({ id: this.id, data: this.newProject }).then(() => {
                     this.closeModalAdd();
-                    this.getInfo();
+                    this.GET_ACCOUNT_INFO(this.id);                    
                 })
             },
 
             deleteProject() {
-                axios.post(`/${this.id}/account/delete-project`, {
-                    projectId: this.relatedProject
-                }).then(() => {
+                this.DELETE_PROJECT({ id: this.id, projectId: this.relatedProject }).then(() => {
                     this.closeModalDelete();
-                    this.getInfo();
+                    this.GET_ACCOUNT_INFO(this.id);                    
                 })
+                // axios.post(`/${this.id}/account/delete-project`, {
+                //     projectId: this.relatedProject
+                // }).then(() => {
+                //     this.closeModalDelete();
+                //     this.GET_ACCOUNT_INFO(this.id);
+                // })
             },
 
             selectColor(color) {
@@ -155,10 +168,13 @@
             },
 
             openModalShare(id) {
-                axios.get(`project/${id}/share`).then(res => {
-                    this.share = `http://localhost:9000/project/share/${res.data.link}`;
+                this.GET_SHARE_LINK(id).then(() => {
                     this.modals.shareProject = true;
                 })
+                // axios.get(`project/${id}/share`).then(res => {
+                //     this.share = `http://localhost:9000/project/share/${res.data.link}`;
+                //     this.modals.shareProject = true;
+                // })
             },
 
             closeModalShare() {
@@ -167,7 +183,7 @@
         },
 
         mounted() {
-            this.getInfo();
+            this.GET_ACCOUNT_INFO(this.id);
         }
     }
 </script>

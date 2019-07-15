@@ -5,8 +5,8 @@ require.context('./static/', true, /\.(ttf|woff|woff2|svg|png|jpe?g)$/);
 
 import Vue from 'vue/dist/vue';
 import App from './App.vue';
-import store from './store/index';
-import router from './router/index';
+import store from './store';
+import router from './router';
 import './interceptors';
 
 new Vue({

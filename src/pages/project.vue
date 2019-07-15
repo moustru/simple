@@ -7,7 +7,7 @@
                 <task v-for="(task, j) in projectData.tasks" :key="j" v-if="task.status === col"
                     :task="task" 
                     :col="col" 
-                    @open="openFullTask"
+                    @open="openFullTask(task._id)"
                     @move="moveTask(task)"/>
             </column>
         </div>
@@ -30,9 +30,6 @@
                 <select class="input-modal" v-model="newTask.assignTo.login" @change="setAssignName">
                     <option selected disabled :value="null">Исполнитель</option>
                     <option v-for="(participant, i) in projectData.team" :key="i" :value="participant.login">{{ participant.name }}</option>
-                    <!-- <option :value="'moustru'">Евгений Могирко</option>
-                    <option :value="'stasonio'">Станислав Дементьев</option>
-                    <option :value="'filipp'">Филипп Хорольский</option> -->
                 </select>
             </div>
             <div class="modal-footer">
@@ -43,22 +40,22 @@
 
         <div class="modal modal-fulltask" v-if="modals.fullTask">
             <div class="fulltask-container">
-                <h2 class="fulltask-container-title title">Задача такая: ты за ноги, я за руки, лопату захватить не забудь, охуеть мороженого покушали</h2>
+                <h2 class="fulltask-container-title title">{{ fullTask.title }}</h2>
                 <div class="fulltask-container-subtitle">
-                    <span class="fulltask-date">Создана: 13.07.2019, 06:54</span>
-                    <span class="fulltask-priority">Приоритет: Важная</span>
+                    <span class="fulltask-date">Создана: {{ fullTask.createdAt }}</span>
+                    <span class="fulltask-priority">Приоритет: {{ fullTask.priority }}</span>
                 </div>
                 <div class="fulltask-container-assign">
                     Исполнитель:
                     <div class="fulltask-assign-img">
                         <img src="img/no_user.png" class="ava ava-small"/>
                     </div>
-                    <span class="fulltask-assign-user">Евгений Могирко</span>
+                    <span class="fulltask-assign-user">{{ fullTask.assignTo }}</span>
                 </div>
                 <div class="fulltask-container-desc">
                     Описание задачи:
                     <div class="fulltask-desc">
-                        Лорем ипсум хуипсум
+                        {{ fullTask.desc }}
                     </div>
                 </div>
             </div>
@@ -182,6 +179,12 @@
                 })
             },
 
+            getTaskInfo(id) {
+                axios.get(`/project/${this.projectId}/task/${id}`).then(res => {
+                    this.fullTask = res.data;
+                })
+            },
+
             dropTask(id) {
                 this.relatedStatus = id;
             },
@@ -203,12 +206,14 @@
                 }
             },
 
-            openFullTask() {
+            openFullTask(id) {
                 this.modals.fullTask = true;
+                this.getTaskInfo(id);
             },
 
             closeFullTask() {
                 this.modals.fullTask = false;
+                this.modals.fullTask = null;
             },
             
             openDelTask() {
