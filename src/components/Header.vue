@@ -2,7 +2,8 @@
     <div class="header">
         <div class="header-user" @click="$router.push(`/${id}/account`)">
             <div class="header-user-img">
-                <img src="img/no_user.png" class=" ava ava-large"/>
+                <img :src="image" v-if="image" class="ava ava-large"/>
+                <img v-else src="img/no_user.png" class=" ava ava-large"/>
             </div>
             <div class="header-user-info">
                 <span class="user-info-name">{{ name }}</span>
@@ -27,7 +28,7 @@
 
 <script>
     export default {
-        props: [ 'name', 'login' ],
+        props: [ 'name', 'login', 'image' ],
         data() {
             return {
                 id: localStorage.getItem('user-id'),
@@ -70,7 +71,7 @@
         cursor: pointer;
 
         &-img {
-            margin-right: 10px;
+            margin-right: 20px;
         }
 
         &-info {

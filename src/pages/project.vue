@@ -1,6 +1,6 @@
 <template>
     <div class="main-field">
-        <header-component :name="account.name" :login="account.login"/>
+        <header-component :name="account.name" :login="account.login" :image="account.avatar"/>
         <h3 class="project-title title">{{ projectData.title }}</h3>
         <div class="project-field">
             <column class="project-field-col" v-for="(col, i) in cols" :key="i" :title="col" @drop-task="dropTask(col)">
@@ -27,7 +27,7 @@
                     <option :value="'NOT_IMPORTANT'">Не важная</option>
                 </select>
                 <textarea v-model="newTask.desc" class="input-modal" rows="10" placeholder="Описание задачи"></textarea>
-                <select class="input-modal" v-model="newTask.assignTo.login" @change="setAssignName">
+                <select class="input-modal" v-model="newTask.assignTo">
                     <option selected disabled :value="null">Исполнитель</option>
                     <option v-for="(participant, i) in projectData.team" :key="i" :value="participant.login">{{ participant.name }}</option>
                 </select>
@@ -145,6 +145,14 @@
             async getData() {
                 await axios.get(`project/${this.projectId}`).then(res => {
                     this.projectData = res.data;
+                }).catch(err => {
+                    this.$router.push({ 
+                        name: 'error',
+                        params: {
+                            code: 403,
+                            message: 'Доступ запрещен'
+                        }
+                    })
                 })
 
                 await Drag.updateElements();

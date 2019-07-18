@@ -18,6 +18,10 @@
                 <input class="input" v-model="user.email" type="email" placeholder="E-mail"/>
                 <input class="input" v-model="user.password" type="password" placeholder="Пароль"/>
                 <input class="input" type="password" placeholder="Повторите пароль"/>
+                <div class="form-load">
+                    <label for="avatar">{{ fileName ? fileName : 'Выберите файл' }}</label>
+                    <input type="file" name="filedata" id="avatar" @change="fileLoad"/>
+                </div>
                 <div class="form-buttons">
                     <button class="btns btn-yes" @click="reg()">Регистрация</button>
                     <button class="btns btn-no" @click="formLogin = !formLogin">Отмена</button>
@@ -39,11 +43,13 @@
         data() {
             return {
                 formLogin: true,
+                fileName: null,
                 user: {
                     name: null,
                     login: null,
                     email: null,
-                    password: null
+                    password: null,
+                    avatar: null
                 },
                 error: {
                     visible: false,
@@ -89,11 +95,24 @@
                     let userId = payload.userId
                     localStorage.setItem('user-token', token)
                     localStorage.setItem('user-id', userId)
-                    //window.location.reload()
                 } catch(err) {
                     localStorage.removeItem('user-token')
                     localStorage.removeItem('user-id')
                     console.log(err);
+                }
+            },
+
+            fileLoad() {
+                let input = document.getElementById('avatar');
+                let fileObj = input.files[0];
+                let reader = new FileReader();
+                let correctName = input.value.replace('C:\\fakepath\\', '');
+                this.fileName = correctName;
+                reader.readAsDataURL(fileObj);
+
+                reader.onload = e => {
+                    this.user.avatar = e.target.result
+                    console.log(this.user.avatar)
                 }
             }
         }
@@ -140,6 +159,21 @@
         font-size: 32px;
     }
 
+    &-load {
+        width: 100%;
+        margin: 10px 0;
+        text-align: center;
+        color: #a5a5a5;
+        border: 2px dashed #a5a5a5;
+
+        label {
+            display: block;
+            width: 100%;
+            padding: 15px 0;
+            cursor: pointer;
+        }
+    }
+
     &-buttons {
         @include Flex(space-between);
         width: 100%;
@@ -148,6 +182,10 @@
         .btns {
             width: 45%;
         }
+    }
+
+    #avatar {
+        display: none;
     }
 }
 </style>

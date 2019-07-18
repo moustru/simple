@@ -21,18 +21,25 @@ const actions = {
     async GET_ACCOUNT_INFO({ commit }, payload) {
         let res = await axios.get(`/${payload}/account`)
         commit('SET_ACCOUNT_INFO', res.data)
+
+        return new Promise(resolve => {
+            resolve(res);
+        })
     },
 
     async ADD_PROJECT({}, payload) {
         await axios.post(`/${payload.id}/account/add-project`, payload.data)
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             resolve();
         })
     },
 
     async DELETE_PROJECT({}, payload) {
-        await axios.post(`/${payload.id}/account/delete-project`, payload.projectId)
-        return new Promise((resolve) => {
+        await axios.post(`/${payload.id}/account/delete-project`, { 
+            projectId: payload.projectId 
+        })
+
+        return new Promise(resolve => {
             resolve();
         })
     },
@@ -41,7 +48,7 @@ const actions = {
         let res = await axios.get(`project/${payload}/share`)
         commit('SET_SHARE_LINK', res.data.link)
 
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             resolve();
         })
     }

@@ -11,9 +11,10 @@
         </div>
         <div v-if="task.assignTo" class="task-footer">
             <div class="task-footer-img">
-                <img src="img/no_user.png" class="ava ava-small"/>
+                <img v-if="task.assignTo.avatar" :src="task.assignTo.avatar" class="ava ava-small"/>
+                <img v-else src="img/no_user.png" class="ava ava-small"/>
             </div>
-            <span class="task-footer-user">{{ task.assignTo }}</span>
+            <span class="task-footer-user">{{ task.assignTo.login }}</span>
         </div>
         <div v-else class="task-footer">
             <span class="task-footer-user">Не назначена</span>
@@ -86,6 +87,7 @@
         @include Flex(flex-start, center);
         width: 100%;
         height: 30%;
+        padding: 0 5px;
         background-color: #f5f5f5;
         font-weight: 800;
 

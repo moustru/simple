@@ -35,7 +35,7 @@
 
 .project {
     position: relative;
-    width: 24%;
+    width: 19%;
     height: 170px;
     margin-right: 1%;
     margin-bottom: 1%;

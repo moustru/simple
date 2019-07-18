@@ -1,6 +1,6 @@
 <template>
     <div class="main-field">
-        <header-component :name="account.name" :login="account.login"/>
+        <header-component :name="account.name" :login="account.login" :image="account.avatar"/>
         <div class="content">
             <div class="content-admin">
                 <h2 class="content-title title">Ваши доски</h2>
@@ -128,12 +128,6 @@
                     this.closeModalDelete();
                     this.GET_ACCOUNT_INFO(this.id);                    
                 })
-                // axios.post(`/${this.id}/account/delete-project`, {
-                //     projectId: this.relatedProject
-                // }).then(() => {
-                //     this.closeModalDelete();
-                //     this.GET_ACCOUNT_INFO(this.id);
-                // })
             },
 
             selectColor(color) {
@@ -171,10 +165,6 @@
                 this.GET_SHARE_LINK(id).then(() => {
                     this.modals.shareProject = true;
                 })
-                // axios.get(`project/${id}/share`).then(res => {
-                //     this.share = `http://localhost:9000/project/share/${res.data.link}`;
-                //     this.modals.shareProject = true;
-                // })
             },
 
             closeModalShare() {
@@ -183,7 +173,15 @@
         },
 
         mounted() {
-            this.GET_ACCOUNT_INFO(this.id);
+            this.GET_ACCOUNT_INFO(this.id).then(() => {}).catch(err => {
+                this.$router.push({ 
+                    name: 'error',
+                    params: {
+                        code: 403,
+                        message: 'Доступ запрещен'
+                    }
+                })
+            });
         }
     }
 </script>
@@ -205,7 +203,7 @@
 .project-add {
     position: relative;
     @include Flex(center, center);
-    width: 24%;
+    width: 19%;
     height: 170px;
     border: 3px dashed #000;
     font-size: 72px;

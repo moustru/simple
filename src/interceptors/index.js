@@ -22,14 +22,14 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use((response) => {
     return response
 }, (error) => {
-    let status = error.response.status
+    let status = error.status
 
     if (status === 401) {
         router.push('/')
         removeAuthorization()
     }
 
-    return Promise.reject(error.response)
+    return Promise.reject(error)
 })
 
 function removeAuthorization () {

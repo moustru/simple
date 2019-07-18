@@ -12,14 +12,22 @@
     export default {
         data() {
             return {
-                code: 404,
-                message: 'Запрашиваемая вами страница не найдена'
+                code: this.$route.params['code'],
+                message: this.$route.params['message']
             }
         },
 
         methods: {
             back() {
-                window.history.length >= 1 ? window.history.back() : this.$router.push('/');
+                if(window.history.length >= 1) {
+                    if(this.code == 403) {
+                        window.history.go(-2);
+                    } else {
+                        window.history.back();
+                    }
+                } else {
+                    this.$router.push('/');
+                }
             },
 
             btnTitle() {
